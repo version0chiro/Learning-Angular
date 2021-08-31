@@ -8,4 +8,14 @@
   </li>
 </ul>
 
+<div>
+  <label for="new-hero">Hero Name:</label>
+  <input id="new-hero" #heroName />
+
+  <button
+    class="add-button"
+    (click)="add(heroName.value); heroName.value = ''"
+  >Add New Hero</button>
+</div>
+
 <!-- <app-hero-detail [hero]="selectedHero"></app-hero-detail> -->
