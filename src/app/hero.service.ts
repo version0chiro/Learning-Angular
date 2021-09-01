@@ -37,18 +37,27 @@ export class HeroService {
     // Error handling will be added in the next step of the tutorial.
     const url = `${this.heroesUrl}/${id}`;
     return this.http.get<Hero>(url).pipe(
-      tap((_) => this.log(`fetched hero id=${id}`)),
+      tap((_) => {
+        this.log(`fetched hero id=${id}`);
+      }),
       catchError(this.handleError<Hero>(`getHero id=${id}`))
     );
   }
 
   addHero(hero: Hero): Observable<Hero> {
-    return this.http
-      .post<Hero>(this.heroesUrl, hero, this.httpOptions)
-      .pipe(
-        tap((newHero: Hero) => this.log(`added hero with id=${newHero.id}`)),
-        catchError(this.handleError<Hero>('addHero'))
-      );
+    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
+      tap((newHero: Hero) => this.log(`added hero with id=${newHero.id}`)),
+      catchError(this.handleError<Hero>('addHero'))
+    );
+  }
+
+  deleteHero(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
+
+    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+      tap((_) => this.log(`deleted hero id=${id}`)),
+      catchError(this.handleError<Hero>('deleteHero'))
+    );
   }
   updateHero(hero: Hero): Observable<any> {
     return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
